@@ -1,7 +1,4 @@
-// Text Expander Popup
-document.addEventListener("DOMContentLoaded",()=>{
-  chrome.storage.local.get(["pro"],d=>{
-    const b=document.getElementById("upgrade-btn");
-    if(d.pro){b.textContent="Pro \u2713";b.disabled=true;b.style.background="#30363d";}
-  });
-});
+const ss={"br":"Best regards,\nYour Name","addr":"123 Main St, City, ST 12345","sig":"-- \nJohn Doe\nSoftware Engineer","thx":"Thank you for your time.","tel":"+1 (555) 123-4567"};
+function render(){chrome.storage.local.get(['snippets'],d=>{const s=d.snippets||ss;document.getElementById('snippet-list').innerHTML=Object.entries(s).map(([k,v])=>'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px;"><div><strong style="color:var(--accent);">/'+k+'/</strong> <span style="color:var(--text-secondary);">'+v.substring(0,25)+'</span></div><button onclick="copy(\''+v.replace(/'/g,"\\'")+'\')" style="font-size:10px;background:var(--surface);color:var(--accent);border:1px solid var(--border);border-radius:3px;padding:1px 6px;cursor:pointer;">Copy</button></div>').join('')})}
+function copy(t){navigator.clipboard.writeText(t.replace(/\\n/g,'\n'))}
+document.addEventListener('DOMContentLoaded',render)
